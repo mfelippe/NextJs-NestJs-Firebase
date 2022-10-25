@@ -27,7 +27,7 @@ NextJS
 
 TailwindCSS
 
-As telas deverão o padrão estabelecido no figma, para acessar use o link: 
+As telas devem seguir o padrão estabelecido no mockup, para acessar use o link: https://whimsical.com/technical-test-lovyca-WaJopgbqbhnmBSS4NMq3wV 
 
 Para se comunicar com a base de dados, você deverá fazer uma API, com todas as regras de segurança possíveis, que seja desenvolvida com:
 
