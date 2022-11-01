@@ -1,86 +1,117 @@
 import type { NextPage } from 'next'
+import { app } from '../services/firebase'
+import *  as firebase from 'firebase/auth'
 import Head from 'next/head'
-import Image from 'next/image'
+import { useState, useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
+import { User } from '../types/User'
 
-const Home: NextPage = () => {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+const AuthPage: NextPage = () => {
+    const { signin } = useContext(AuthContext)
+    const auth = firebase.getAuth(app)
+    const [phoneNumber, setPhoneNumber] = useState("+55")
+    const [code, setCode] = useState<any>('')
+    const [error, setError] = useState<Boolean>(false)
+    const [sendCode, setSendCode] = useState<Boolean>(false)
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+    const generateRecaptch = async () => {
+        try {
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
+            window.recaptchaVerifier = new firebase.RecaptchaVerifier('sign-in-button', {
+                'size': 'normal',
+                'callback': (response: any) => {
+                }
+            }, auth)
 
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+    const requestCode = async (e: any) => {
+        e.preventDefault();
+        /*
+        const user: User = {
+            number: '61993153532',
+            uid: '123123123'
+        }
+        signin(user, 'result.user.111123')*/
+        //@ts-ignore
+        generateRecaptch()
+        let appVerifier = window.recaptchaVerifier;
+        firebase.signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confimationResult => {
+            console.log("código enviado ...")
+            window.confirmationResult = confimationResult
+            setSendCode(true)
+        })).catch((err) => {
+            console.log(err)
+        })
+    }
 
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
+    const verifierCode = () => {
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
+        let confirmationResult = window.confirmationResult
+        //@ts-ignore
+        confirmationResult.confirm(code).then(result => {
+            console.log(result.user)
+            const user: User = {
+                number: result.user.phoneNumber,
+                uid: result.user.uid
+            }
+            signin(user, result.user.acessToken)
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+            //@ts-ignore
+        }).catch((err) => {
+            console.log(err)
 
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
-    </div>
-  )
+        })
+
+    }
+
+    return (
+        <>
+            <Head>
+                <title>Lovyca | LOGIN</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
+            <main className="grid grid-cols-1 lg:grid-cols-2">
+
+                <div className="lg:min-h-screen lg:flex lg:items-center p-8 sm:p-12">
+                    <div className="flex-grow">
+                        <h1 className='text-slate-600 font-bold text-center text-2xl sm:text-7xl'>Lovyca</h1>
+                    </div>
+                </div>
+                <div className='lg:min-h-screen lg:flex lg:items-center p-12 lg:p-24'>
+                    <div className='flex-grow bg-slate-500 shadow-xl p-12'>
+
+
+                        {sendCode ? <>
+
+                            <input type="text" placeholder='Código de Verificação' value={code} onChange={(e) => setCode(e.target.value)} className={error ? `block w-full h-16 rounded-md border-red-600 pl-7 pr-12 sm:text-lg mb-3` : `block w-full h-16 rounded-md border-gray-300 pl-7 pr-12 sm:text-lg mb-3`} />
+                            <button onClick={verifierCode} className='flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-600 px-8 py-3 text-xl font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-l'> Verificar </button>
+
+                        </> : <>
+                            <form className="space-y-6" onSubmit={requestCode}>
+                                <input type="text" placeholder='Celular' name='celular' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className='block w-full h-16 rounded-md border-gray-300 pl-7 pr-12 sm:text-lg mb-3' />
+                                <button className='flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-600 px-8 py-3 text-xl font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-l'> Entrar </button>
+
+                                <div id="sign-in-button" className="justify-center flex">
+
+                                </div>
+
+                            </form>
+                        </>}
+
+
+                    </div>
+                </div>
+
+            </main>
+
+
+        </>
+    )
 }
 
-export default Home
+export default AuthPage
