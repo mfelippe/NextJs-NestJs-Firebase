@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { LovycaServicesModule } from './modules/lovyca-services/lovyca-services.module';
 
 @Module({
-  imports: [],
+  imports: [LovycaServicesModule],
   controllers: [],
   providers: [],
 })
