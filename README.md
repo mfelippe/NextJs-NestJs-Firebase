@@ -106,4 +106,4 @@ Os dados necessários para serem usados no frontend como **token** foi armazenad
 
 ## requisitos não entregues
 
-- Não foi entregue a solução de pesquisa dos serviços, mas a proposta dessa solução seria um componente Input que recebe uma lista de soluções criadas por contexto `<Input {...serviçosName}/>`, detro do componente seria feito o trabamento da informação buscada para comparar com os elementos recebidos e apresentar o alemento com maior similaridade.
+- Não foi entregue a solução de pesquisa dos serviços, mas a proposta dessa solução seria um componente Input que recebe uma lista de soluções criadas por contexto `<Input {...serviçosName}/>`, detro do componente seria feito o tratamento da informação digitada para comparar com os elementos recebidos e apresentar o alemento com maior similaridade.
