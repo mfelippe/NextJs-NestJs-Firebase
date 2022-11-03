@@ -96,7 +96,7 @@ Os dados necessários para serem usados no frontend como **token** foi armazenad
 - React-hook-form;
 - Nookies;
 
-# Melhorias
+## Melhorias
 
 - O backend não demanda tanto esforço o mesmo poderia ser escrito utilizando as rotas API no nextJs;
 - A primeira tela após o login seria com as listas de serviços cadastrados;
@@ -104,6 +104,6 @@ Os dados necessários para serem usados no frontend como **token** foi armazenad
 - Outras opções de método de autenticação no frontend.
 - banco de dados relacional (postgre, mysql), é mais escalaval conforme o aumento de dados a ser armazenados.
 
-## requisitos não entregues
+## Requisitos não entregues
 
 - Não foi entregue a solução de pesquisa dos serviços, mas a proposta dessa solução seria um componente Input que recebe uma lista de soluções criadas por contexto `<Input {...serviçosName}/>`, detro do componente seria feito o tratamento da informação digitada para comparar com os elementos recebidos e apresentar o alemento com maior similaridade.
