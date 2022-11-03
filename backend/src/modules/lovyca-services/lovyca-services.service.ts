@@ -6,6 +6,7 @@ import { servicesDTO } from './lovycaServices.dto';
 export class LovycaServicesService {
   async create(data: servicesDTO) {
     try {
+      console.table(data);
       const newService = await db.collection('services').add(data);
       return newService.id;
     } catch (err) {
@@ -23,7 +24,8 @@ export class LovycaServicesService {
       }
       let res = [];
       query.forEach((doc) => {
-        res.push(doc.data());
+        let data = { id: doc.id, ...doc.data() };
+        res.push(data);
       });
       return res;
     } catch (err) {

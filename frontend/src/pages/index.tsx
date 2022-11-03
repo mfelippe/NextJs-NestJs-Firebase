@@ -2,17 +2,23 @@ import type { NextPage } from 'next'
 import { app } from '../services/firebase'
 import *  as firebase from 'firebase/auth'
 import Head from 'next/head'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { User } from '../types/User'
+import { toast } from 'react-toastify'
+import { CELULAR } from '../services/mascaras'
 
 const AuthPage: NextPage = () => {
-    const { signin } = useContext(AuthContext)
+    const { signin, sigout } = useContext(AuthContext)
     const auth = firebase.getAuth(app)
-    const [phoneNumber, setPhoneNumber] = useState("+55")
+    const [phoneNumber, setPhoneNumber] = useState("")
     const [code, setCode] = useState<any>('')
     const [error, setError] = useState<Boolean>(false)
     const [sendCode, setSendCode] = useState<Boolean>(false)
+
+    useEffect(() => {
+        sigout()
+    }, [])
 
     const generateRecaptch = async () => {
         try {
@@ -30,42 +36,46 @@ const AuthPage: NextPage = () => {
     }
     const requestCode = async (e: any) => {
         e.preventDefault();
-        /*
-        const user: User = {
-            number: '61993153532',
-            uid: '123123123'
-        }
-        signin(user, 'result.user.111123')*/
-        //@ts-ignore
+
+        const numero = '+55' + phoneNumber.replace(/[^\d]/g, "")
+
+
         generateRecaptch()
         let appVerifier = window.recaptchaVerifier;
-        firebase.signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confimationResult => {
+        firebase.signInWithPhoneNumber(auth, numero, appVerifier).then((confimationResult => {
             console.log("código enviado ...")
             window.confirmationResult = confimationResult
             setSendCode(true)
         })).catch((err) => {
             console.log(err)
+            toast.error('Ocorreu um erro no serviço')
         })
+
     }
 
-    const verifierCode = () => {
+    const verifierCode = async () => {
 
         let confirmationResult = window.confirmationResult
         //@ts-ignore
         confirmationResult.confirm(code).then(result => {
-            console.log(result.user)
+
             const user: User = {
                 number: result.user.phoneNumber,
                 uid: result.user.uid
             }
-            signin(user, result.user.acessToken)
+            signin(user, result.user.accessToken)
 
             //@ts-ignore
         }).catch((err) => {
             console.log(err)
-
+            toast.error('Código incorreto')
         })
 
+    }
+    const handlePhone = (e: any) => {
+        const { value } = e.target
+        setPhoneNumber(CELULAR(value))
+        return
     }
 
     return (
@@ -93,7 +103,7 @@ const AuthPage: NextPage = () => {
 
                         </> : <>
                             <form className="space-y-6" onSubmit={requestCode}>
-                                <input type="text" placeholder='Celular' name='celular' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className='block w-full h-16 rounded-md border-gray-300 pl-7 pr-12 sm:text-lg mb-3' />
+                                <input type="text" placeholder='Celular' name='celular' value={phoneNumber} onChange={(e) => handlePhone(e)} className='block w-full h-16 rounded-md border-gray-300 pl-7 pr-12 sm:text-lg mb-3' />
                                 <button className='flex w-full items-center justify-center rounded-md border border-transparent bg-emerald-600 px-8 py-3 text-xl font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-l'> Entrar </button>
 
                                 <div id="sign-in-button" className="justify-center flex">

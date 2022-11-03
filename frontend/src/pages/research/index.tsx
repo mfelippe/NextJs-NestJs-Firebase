@@ -1,6 +1,7 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { parseCookies } from 'nookies'
 
 
 const ResearchPage: NextPage = () => {
@@ -24,7 +25,7 @@ const ResearchPage: NextPage = () => {
 
                 </div>
 
-                <Link href="#">
+                <Link href="/servicos/novo">
                     <p className='text-indigo-800 underline hover:text-purple-600 '> Estou adicionando um serviço que não é ofertado na Lovyca</p>
                 </Link>
             </div>
@@ -35,3 +36,22 @@ const ResearchPage: NextPage = () => {
 }
 
 export default ResearchPage
+
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+
+    const { ['lovyca.uid']: uid } = parseCookies(context)
+
+    if (!uid) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
+    return {
+        props: {}
+    }
+
+
+}
