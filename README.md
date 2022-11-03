@@ -7,7 +7,7 @@ Sendo assim, este desafio irá testar suas habilidades no desenvolvimento de uma
 
 ## Contextualização do desafio
 
-Considere que estamos precisando desenvolver uma nova interface para o gerenciamento de seviços oferecidos para os cliente da Lovyca. Esta plataforma deverá gerenciar os serviços, ou seja, permitir que sejam feitas todas as ações do CRUD no serviço.   
+Considere que estamos precisando desenvolver uma nova interface para o gerenciamento de seviços oferecidos para os cliente da Lovyca. Esta plataforma deverá gerenciar os serviços, ou seja, permitir que sejam feitas todas as ações do CRUD no serviço.
 
 ---
 
@@ -17,7 +17,7 @@ A autenticação deverá usar o Firebase Auth com autenticação via SMS.
 
 Você poderá autenticar o frontend diretamente com o firebase.
 
-O front deverá utilizar: 
+O front deverá utilizar:
 
 Typescript
 
@@ -27,7 +27,7 @@ NextJS
 
 TailwindCSS
 
-As telas devem seguir o padrão estabelecido no mockup, para acessar use o link: https://whimsical.com/technical-test-lovyca-WaJopgbqbhnmBSS4NMq3wV 
+As telas devem seguir o padrão estabelecido no mockup, para acessar use o link: https://whimsical.com/technical-test-lovyca-WaJopgbqbhnmBSS4NMq3wV
 
 Para se comunicar com a base de dados, você deverá fazer uma API, com todas as regras de segurança possíveis, que seja desenvolvida com:
 
@@ -62,13 +62,41 @@ Firebase
 1. Crie um fork do repositório no seu GitHub
 2. Faça o push do código desenvolvido no seu Github
 3. Inclua um arquivo chamado README.md explicando
-    - Decisão da arquitetura utilizada
-    - Lista de bibliotecas de terceiros utilizadas
-    - O que você melhoraria se tivesse mais tempo
-    - Quais requisitos obrigatórios que não foram entregues
+   - Decisão da arquitetura utilizada
+   - Lista de bibliotecas de terceiros utilizadas
+   - O que você melhoraria se tivesse mais tempo
+   - Quais requisitos obrigatórios que não foram entregues
 4. Lembre-se de informar quando concluir o desafio e enviar o link do repositório
 5. Após revisão do projeto junto com a equipe de desevolvimento deixe seu repositório privado
 
 Lembre-se, qualquer dúvida na execução do desafio, não exite em nos perguntar
 
 Boa sorte! 🚀
+
+## Entregas
+
+[✔] - backend com nestJs;
+[✔] - Frontend usando NextJs;
+[✔] - Autenticação por telefone do Firebase;
+[✔] - serviços backend para criação de listas de serviços;
+[✔] - Criação, edição e listagem de serviços;
+[❌] - Pesquisa de serviços cadastrados;
+
+## Arquitetura
+
+Os dois projetos se encontram na mesma pasta a API roda a portar _3001_ e o FRONTEND na porta _3000_.
+
+## Lista de bibliotecas utilizadas
+
+- Firebase (Autenticação e Database);
+- Toastify;
+- React-hook-form;
+- Nookies;
+
+# Melhorias
+
+- O backend não demanda tanto esforço o mesmo poderia ser escrito utilizando as rotas API no nextJs;
+- A primeira tela após o login seria com as listas de serviços cadastrados;
+- Integração de Middleware com o backend (JWT);
+- Outras opções de método de autenticação no frontend.
+- banco de dados relacional (postgre, mysql), é mais escalaval conforme o aumento de dados a ser armazenados.
