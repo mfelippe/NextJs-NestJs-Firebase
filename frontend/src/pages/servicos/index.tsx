@@ -1,6 +1,7 @@
 import type { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { parseCookies } from 'nookies'
+import { InputSearch } from '../../components/InputPesquisa';
 
 export default function Curadoria({ servicos }: any) {
     const showServices = !!servicos
@@ -19,14 +20,8 @@ export default function Curadoria({ servicos }: any) {
                 <div className='flex flex-col mt-5 md:ml-10'>
                     <h1 className='font-sans text-2xl font-semibold'>Buscar serviços</h1>
                     <p className='text-sm mt-2'>Encontre um serviço adicionado</p>
-                    <div className='relative  mb-3 items-center'>
-                        <svg className="w-6 h-6 text-slate-500 absolute  right-16 md:right-32 top-2 hover:text-orange-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                        </svg>
+                    <InputSearch list={servicos} />
 
-                        <input type="text" className="w-11/12 block text-sm text-gray-800 border-4 rounded-sm p-2 focus:outline-none focus:border-blue-400" placeholder='nome do serviço' />
-
-                    </div>
                 </div>
             </div>
 

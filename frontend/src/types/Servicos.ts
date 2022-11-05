@@ -5,4 +5,5 @@ export type Servicos = {
   price: number | string;
   description?: string;
   uid: string;
+  id: string;
 };
