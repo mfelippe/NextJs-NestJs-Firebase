@@ -80,7 +80,7 @@ Boa sorte! 🚀
 - [✔] - Autenticação por telefone do Firebase;
 - [✔] - serviços backend para criação de listas de serviços;
 - [✔] - Criação, edição e listagem de serviços;
-- [❌] - Pesquisa de serviços cadastrados;
+- [✔] - Pesquisa de serviços cadastrados;
 
 ## Arquitetura
 
@@ -103,7 +103,3 @@ Os dados necessários para serem usados no frontend como **token** foi armazenad
 - Integração de Middleware com o backend (JWT);
 - Outras opções de método de autenticação no frontend.
 - banco de dados relacional (postgre, mysql), é mais escalaval conforme o aumento de dados a ser armazenados.
-
-## Requisitos não entregues
-
-- Não foi entregue a solução de pesquisa dos serviços, mas a proposta dessa solução seria um componente Input que recebe uma lista de soluções criadas por contexto `<Input {...serviçosName}/>`, detro do componente seria feito o tratamento da informação digitada para comparar com os elementos recebidos e apresentar o alemento com maior similaridade.
